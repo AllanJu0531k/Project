@@ -21,10 +21,10 @@ def login():
 
         if found == True:
             message.set('Login success')
-            button = Button(window,text = 'Next',fg ='black',bg = 'green',command = new_window,width=8,height=1).place(x=500,y=150)
+            #button = Button(window,text = 'Next',fg ='black',bg = 'green',command = new_window,width=8,height=1).place(x=500,y=150)
         else:
             message.set('wrong')
-
+    button = Button(window,text = 'Next',fg ='black',bg = 'green',command = new_window,width=8,height=1).place(x=500,y=150)
 
 window = Tk()
 window.title('Login Form')
@@ -33,9 +33,6 @@ window.configure(background='light blue')
 mail = StringVar()
 pwd = StringVar()
 message = StringVar()
-mobile = IntVar()
-accno = IntVar()
-ifsc = IntVar()
 
 Label(window, text='Please fill the following details', bg='red', font=('Times', 17)).pack()
 
@@ -58,6 +55,9 @@ def new_window():
     newWindow.geometry('800x500')
     newWindow.configure(background='light blue')
     name = StringVar()
+    mobile = IntVar()
+    accno = IntVar()
+    ifsc = IntVar()
     Label(newWindow, text='Enter your Details', fg='black', bg='red', font=("Monotype Corsiva", 25), width=80).pack()
 
     Label(newWindow, text='Name', font=('Maiandra GD', 14), bg='light blue').place(x=10, y=60)
@@ -73,7 +73,8 @@ def new_window():
     mobileNumber = Label(newWindow, text='Mobile number', font=('Maiandra GD', 14), bg='light blue')
     mobileNumber.place(x=10, y=140)
     Label(newWindow, text=':', fg='black', bg='light blue', font=('Elephant')).place(x=180, y=140)
-    Entry(newWindow, textvariable=mobile, font=('Maiandra GD', 13)).place(x=200, y=140)
+    Mobile = Entry(newWindow, textvariable=mobile, font=('Maiandra GD', 13))
+    Mobile.place(x=200, y=140)
 
     Label(newWindow, text='Account number', font=('Maiandra GD', 14), bg='light blue').place(x=10, y=180)
     Label(newWindow, text=':', fg='black', bg='light blue', font=('Elephant')).place(x=180, y=180)
@@ -84,24 +85,23 @@ def new_window():
     Entry(newWindow, textvariable=ifsc, font=('Maiandra GD', 13)).place(x=200, y=220)
     messageLabel = Label(newWindow, text='', bg='light blue')
     messageLabel.place(x=400, y=300)
-    Button(newWindow, text="Check", width=10, height=1, command=lambda: check(Name.get(), messageLabel),
-           bg='light blue').place(x=500, y=250)
+    Button(newWindow, text="Check", width=10, height=1, command=lambda:check(Name.get(), messageLabel,Mobile.get()),bg='light blue').place(x=500, y=250)
 
 
-def check(Name, messageLabel):
-    if Name == '':
-        messageLabel.config(text='Enter name')
+def check(Name, messageLabel,Mobile):
+    if Name == '' and Mobile == '':
+        messageLabel.config(text='Enter')
 
     else:
         f = open('E://Book.csv', 'r')
         g = csv.reader(f)
         found = False
         for row in g:
-            if Name == row[2]:
+            if Name == row[2] and Mobile == row[4]:
                 found = True
         if found == True:
-            messageLabel.config(text='Correct name')
+            messageLabel.config(text='Correct')
         else:
-            messageLabel.config(text='Wrong name')
+            messageLabel.config(text='Wrong')
 
 mainloop()
