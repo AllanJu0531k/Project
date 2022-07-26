@@ -78,18 +78,21 @@ def new_window():
 
     Label(newWindow, text='Account number', font=('Maiandra GD', 14), bg='light blue').place(x=10, y=180)
     Label(newWindow, text=':', fg='black', bg='light blue', font=('Elephant')).place(x=180, y=180)
-    Entry(newWindow, textvariable=accno, font=('Maiandra GD', 13)).place(x=200, y=180)
+    Account = Entry(newWindow, textvariable=accno, font=('Maiandra GD', 13))
+    Account.place(x=200, y=180)
 
     Label(newWindow, text='IFSC code', font=('Maiandra GD', 14), bg='light blue').place(x=10, y=220)
     Label(newWindow, text=':', fg='black', bg='light blue', font=('Elephant')).place(x=180, y=220)
-    Entry(newWindow, textvariable=ifsc, font=('Maiandra GD', 13)).place(x=200, y=220)
+    IFSC = Entry(newWindow, textvariable=ifsc, font=('Maiandra GD', 13))
+    IFSC.place(x=200, y=220)
+    
     messageLabel = Label(newWindow, text='', bg='light blue')
     messageLabel.place(x=400, y=300)
-    Button(newWindow, text="Check", width=10, height=1, command=lambda:check(Name.get(), messageLabel,Mobile.get()),bg='light blue').place(x=500, y=250)
+    Button(newWindow, text="Check", width=10, height=1, command=lambda:check(Name.get(), messageLabel,Mobile.get(),Account.get(),IFSC.get()),bg='light blue').place(x=500, y=250)
 
 
-def check(Name, messageLabel,Mobile):
-    if Name == '' and Mobile == '':
+def check(Name, messageLabel,Mobile,Account,IFSC):
+    if Name == '' and Mobile == '' and Account == '' and IFSC == '':
         messageLabel.config(text='Enter')
 
     else:
@@ -97,7 +100,7 @@ def check(Name, messageLabel,Mobile):
         g = csv.reader(f)
         found = False
         for row in g:
-            if Name == row[2] and Mobile == row[4]:
+            if Name == row[2] and Mobile == row[4] and Account == row[5] and IFSC == row[6]:
                 found = True
         if found == True:
             messageLabel.config(text='Correct')
