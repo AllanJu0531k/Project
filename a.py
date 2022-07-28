@@ -6,9 +6,6 @@ import csv
 def login():
     email = mail.get()
     password = pwd.get()
-    Mobileno = mobile.get()
-    Accountno = accno.get()
-    IFSCcode = ifsc.get()
     if email == '' and password == '':
         message.set('fill the columns')
     else:
@@ -58,6 +55,8 @@ def new_window():
     mobile = IntVar()
     accno = IntVar()
     ifsc = IntVar()
+    window.destroy()
+    
     Label(newWindow, text='Enter your Details', fg='black', bg='red', font=("Monotype Corsiva", 25), width=80).pack()
 
     Label(newWindow, text='Name', font=('Maiandra GD', 14), bg='light blue').place(x=10, y=60)
@@ -68,7 +67,8 @@ def new_window():
     Label(newWindow, text='Occupation', font=('Maiandra GD', 14), bg='light blue').place(x=10, y=100)
     Label(newWindow, text=':', fg='black', bg='light blue', font=('Elephant')).place(x=180, y=100)
     course = ('Evaluator', 'Coordinator', 'Assistant Head Examiner', 'Head Examiner')
-    combo = ttk.Combobox(newWindow, value=course, width=20, height=4, font=('Maiandra GD', 13)).place(x=200, y=100)
+    combo = ttk.Combobox(newWindow, value=course, width=20, height=4, font=('Maiandra GD', 13))
+    combo.place(x=200, y=100)
 
     mobileNumber = Label(newWindow, text='Mobile number', font=('Maiandra GD', 14), bg='light blue')
     mobileNumber.place(x=10, y=140)
@@ -88,10 +88,9 @@ def new_window():
     
     messageLabel = Label(newWindow, text='', bg='light blue')
     messageLabel.place(x=400, y=300)
-    Button(newWindow, text="Check", width=10, height=1, command=lambda:check(Name.get(), messageLabel,Mobile.get(),Account.get(),IFSC.get()),bg='light blue').place(x=500, y=250)
+    Button(newWindow, text="Check", width=10, height=1, command=lambda:check(Name.get(),combo.get(),messageLabel,Mobile.get(),Account.get(),IFSC.get()),bg='light blue').place(x=500, y=250)
 
-
-def check(Name, messageLabel,Mobile,Account,IFSC):
+def check(Name,combo,messageLabel,Mobile,Account,IFSC):
     if Name == '' and Mobile == '' and Account == '' and IFSC == '':
         messageLabel.config(text='Enter')
 
@@ -100,7 +99,7 @@ def check(Name, messageLabel,Mobile,Account,IFSC):
         g = csv.reader(f)
         found = False
         for row in g:
-            if Name == row[2] and Mobile == row[4] and Account == row[5] and IFSC == row[6]:
+            if Name == row[2] and combo == row[3] and Mobile == row[4] and Account == row[5] and IFSC == row[6]:
                 found = True
         if found == True:
             messageLabel.config(text='Correct')
